@@ -7,7 +7,7 @@ python:
 install:
   - pip install flask
   - pip install flask_wtf
-  - pip install pip install sqlalchemy
+  - pip install sqlalchemy
   - pip install flake8
 
 services:

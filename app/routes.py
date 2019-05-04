@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, flash, redirect
 from app.models import User, Post 
 from app.forms import RegistrationForm, LoginForm
-from app import app
+from app import app, db, bcrypt
 posts = [
           {
             'author': 'Md Shahid',
@@ -23,16 +23,23 @@ title = "ML/DL"
 def hello():
 	return render_template('index.html', posts=posts)
 
+
 @app.route('/about')
 def about():
 	return render_template('about.html', title=title)
 
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
 	form = RegistrationForm()
+
 	if form.validate_on_submit():
-		flash(f'Account created for {form.username.data}!', 'success')
-		return redirect(url_for('hello'))
+		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8') 
+		user = User(username=form.username.data, email=form.email.data, password=hashed_password )
+		db.session.add(user)
+		db.session.commit()
+		flash(f' Your account has been created for {form.username.data}!', 'success')
+		return redirect(url_for('login'))
 	return render_template('register.html', title='Register', form=form)
 
 @app.route("/login", methods=['GET', 'POST'])

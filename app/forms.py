@@ -20,12 +20,21 @@ class RegistrationForm(FlaskForm):
 	def validate_username(self, username):
 		user = User.query.filter_by(username=username.data).first()
 		if user:
+<<<<<<< HEAD
 			raise ValidationError('This username is taken! Choose another.')
+=======
+			raise ValidationError('This username is already taken')
+>>>>>>> 821136f03ecba87f8c4d39361c6e9bf88f988d97
 
 	def validate_email(self, email):
 		user = User.query.filter_by(email=email.data).first()
 		if user:
+<<<<<<< HEAD
 			raise ValidationError('This email is taken! Choose another.')
+=======
+			raise ValidationError('This email is already taken')
+
+>>>>>>> 821136f03ecba87f8c4d39361c6e9bf88f988d97
 
 class LoginForm(FlaskForm):
 	email = StringField('Email', 
